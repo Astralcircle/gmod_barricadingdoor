@@ -17,8 +17,26 @@ local GetConVarNumber = GetConVarNumber
 local DOOR_SEARCH_RADIUS = 125
 local DOOR_CHECK_INTERVAL = 0.2
 
+-- Я без понятия как узнать есть ли CAP_OPEN_DOORS у нпс, так что использовал таблицу
+local Doormens_NPCS_Canbe = {
+    -- комбонайны
+	[ "npc_combine_s" ] = true,
+	[ "npc_metropolice" ] = true,
+    -- zа повстанцев
+    [ "npc_alyx" ] = true,
+    [ "npc_barney" ] = true,
+    [ "npc_citizen" ] = true,
+    [ "npc_odessa" ] = true,
+    [ "npc_kleiner" ] = true,
+    [ "npc_eli" ] = true,
+    [ "npc_magnusson" ] = true,
+    [ "npc_mossman" ] = true,
+    [ "npc_vortigaunt" ] = true,
+    [ "npc_monk"] = true
+    --["npc_zombie"] = true
+}
 hook.Add("OnEntityCreated", "DoorBar_NPCCreate", function( ent )
-    if ent:IsNPC() and bit.band(ent:CapabilitiesGet(), CAP_OPEN_DOORS) == CAP_OPEN_DOORS then
+    if ent:IsNPC() and ent:IsValid() and Doormens_NPCS_Canbe[ ent:GetClass() ] then
         ent.LastDoorCheck = 0
         table.insert(Doormen_NPCS,ent)
     end
